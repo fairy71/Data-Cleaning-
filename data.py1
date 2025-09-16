@@ -1,0 +1,19 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("messy_customers.csv")
+
+df = df.drop_duplicates()
+
+df['Name'] = df['Name'].str.title()
+df['Country'] = df['Country'].str.upper()
+
+df['Name'] = df['Name'].fillna("Unknown")
+df['Age'] = df['Age'].fillna(df['Age'].mean())
+
+df['Email'] = df['Email'].apply(lambda x: x if '@' in x else np.nan)
+
+df['Salary'] = df['Salary'].replace("not available", np.nan).astype(float)
+df['Salary'] = df['Salary'].fillna(df['Salary'].median())
+
+print(df)
